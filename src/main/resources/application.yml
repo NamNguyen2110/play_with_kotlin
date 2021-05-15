@@ -1,11 +1,13 @@
 server:
   port: 8080
 spring:
+  banner:
+      location: classpath:banner.txt
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    password: ${DATABASE_PASSWORD}
-    url: jdbc:mariadb://${DNS}:3306/${DATABASE_NAME}?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: ${DATABASE_USERNAME}
+    password: password
+    url: jdbc:mariadb://localhost:3306/fonos?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: admin
   jpa:
     hibernate:
       ddl-auto: update

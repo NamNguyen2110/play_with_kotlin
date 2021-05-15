@@ -1,18 +1,5 @@
 version: '3'
 services:
-  vsap-backend:
-    container_name: vsap-backend
-    image: namnguyen2110/vsap-backend
-    volumes:
-      - vsap-volumes:/vsap-backend
-    depends_on:
-      - db
-      - minio
-      - jenkins
-    ports:
-      - "8080:8080"
-    networks:
-      - vsap-networks
   db:
     container_name: mariadb
     image: mariadb:latest
