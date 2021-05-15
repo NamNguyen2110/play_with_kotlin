@@ -6,7 +6,7 @@ services:
     environment:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: 123456aA@
     ports:
       - "3307:3306"
     volumes:
@@ -14,34 +14,6 @@ services:
     restart: always
     networks:
       - vsap-networks
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce:2.0.0
-    command: -H unix:///var/run/docker.sock
-    ports:
-      - 9001:9000
-      - 8000:8000
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - vsap-volumes:/data
-    networks:
-      - vsap-networks
-  minio:
-    container_name: minio
-    image: bitnami/minio
-    ports:
-      - "9002:9000"
-    environment:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: minio123
-    volumes:
-      - ./storage/minio:/minio
-    command: server /data
-    networks:
-      - vsap-networks
-    depends_on:
-      - db
   jenkins:
     container_name: jenkins
     image: jenkins/jenkins:lts
