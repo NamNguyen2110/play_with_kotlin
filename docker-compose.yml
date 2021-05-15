@@ -1,0 +1,75 @@
+version: '3'
+services:
+  vsap-backend:
+    container_name: vsap-backend
+    image: namnguyen2110/vsap-backend
+    volumes:
+      - vsap-volumes:/vsap-backend
+    depends_on:
+      - db
+      - minio
+      - jenkins
+    ports:
+      - "8080:8080"
+    networks:
+      - vsap-networks
+  db:
+    container_name: mariadb
+    image: mariadb:latest
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - /opt/mysql/data:/var/lib/mysql
+    restart: always
+    networks:
+      - vsap-networks
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:2.0.0
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - 9001:9000
+      - 8000:8000
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - vsap-volumes:/data
+    networks:
+      - vsap-networks
+  minio:
+    container_name: minio
+    image: bitnami/minio
+    ports:
+      - "9002:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    volumes:
+      - ./storage/minio:/minio
+    command: server /data
+    networks:
+      - vsap-networks
+    depends_on:
+      - db
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8081:8080
+      - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+    networks:
+      - vsap-networks
+networks:
+  vsap-networks:
+    driver: bridge
+volumes:
+  vsap-volumes:
