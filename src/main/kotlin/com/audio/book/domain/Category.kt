@@ -1,4 +1,4 @@
-package com.audio.book
+package com.audio.book.domain
 
 import lombok.AllArgsConstructor
 import lombok.Data
@@ -15,6 +15,7 @@ import javax.persistence.Id
 class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null;
+    var id: Long? = null;
     var categoryName: String = "";
+
 }
